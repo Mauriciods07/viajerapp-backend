@@ -1,0 +1,20 @@
+/.venv/
+/.vscode/
+/scripts/
+
+__pycache__/
+*.py[cod]
+
+.pytest_cache/
+
+.env
+
+# resources
+resources/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+.env_aws
+resources/img/

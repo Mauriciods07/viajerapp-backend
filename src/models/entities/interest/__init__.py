@@ -1,0 +1,1 @@
+from src.models.entities.interest.Interest import Interest
