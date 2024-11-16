@@ -18,6 +18,7 @@ app.register_blueprint(UserRoute.main, url_prefix = '/api/user')
 app.register_blueprint(ProfileRoute.main, url_prefix = '/api/profile')
 app.register_blueprint(InterestRoute.main, url_prefix = '/api/interest')
 
+# app.register_blueprint(ShareRoute.main, url_prefix = '/api/share')
 #app.register_blueprint(ChatRoute.main, url_prefix = '/api/chat')
 
 
