@@ -1,4 +1,3 @@
-import uuid
 import bcrypt
 import hashlib
 from flask import Blueprint, jsonify, request
