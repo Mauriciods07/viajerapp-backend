@@ -108,6 +108,7 @@ def feed_home():
                 recommendations.append(recommendation)
 
         return jsonify({
+            'success': True,
             'recommendations': recommendations
         })
     except Exception as ex:

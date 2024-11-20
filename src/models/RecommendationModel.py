@@ -18,6 +18,7 @@ class RecommendationModel():
         }
         self.numDays = 3
         self.numAdults = 2
+        self.token = config("AMADEUS_API_KEY")
 
         with open('src/resources/files/offers.json', encoding='utf-8') as file:
             data = json.load(file)
@@ -44,12 +45,14 @@ class RecommendationModel():
         url = self.base_url + "?" + '&'.join([x + "=" + self.params[x] for x in self.params.keys()])
 
         try:
-            headers = {"Authorization": "Bearer {}".format(config("AMADEUS_API_KEY"))}
-            response = requests.get(url, headers=headers).json()
+            response = self.getResponse(url)
             print(response)
 
             offers_list = []
-            if (len(response) != 0):
+            if ('errors' in response):
+                response = self.retryConnection(url)
+
+            if (not 'errors' in response):
                 number_of_offers = response['meta']['count']
                 offers = response['data']
 
@@ -65,6 +68,7 @@ class RecommendationModel():
                     price = option['price']['total']
                     currency = option['price']['currency']
                     text = offer_params['description'].format(city=city, numDays=self.numDays, numAdults=self.numAdults)
+                    image = random.choice(offer_params['images'])
 
                     new_option = self.params.copy()
                     new_option_02 = {
@@ -75,6 +79,7 @@ class RecommendationModel():
                         'currency': currency,
                         'currency_symbol': '€' if currency == 'EUR' else '$',
                         'text': text,
+                        'image': image,
                         'data': option
                     }
 
@@ -86,3 +91,25 @@ class RecommendationModel():
         except Exception as ex:
             print(str(ex))
             return {}
+        
+    def retryConnection(self, url):
+        client_id = config("AMADEUS_CLIENT_ID")
+        client_secret = config("AMADEUS_SECRET_ID")
+        key_url = config("AMAUDEUS_URL")
+
+        body = {
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'grant_type': 'client_credentials'
+        }
+
+        token = requests.post(key_url, data=body).json()
+        self.token = token['access_token']
+
+        return self.getResponse(url)
+
+
+
+    def getResponse(self, url):
+        headers = {"Authorization": "Bearer {}".format(self.token)}
+        return requests.get(url, headers=headers).json()
