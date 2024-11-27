@@ -1,4 +1,3 @@
-import uuid
 import bcrypt
 import hashlib
 from flask import Blueprint, jsonify, request
@@ -38,7 +37,7 @@ def login():
             'profile_id': authenticated_user.id,
             'email': authenticated_user.email,
             'token': encoded_token
-            })
+            }), 200
     else:
         response = jsonify({'message': 'No registrado'})
         return response, 401
@@ -65,7 +64,7 @@ def sign_up():
             })
         else:
             response = jsonify({'message': 'Error al registrarse'})
-            return response, 500
+            return response
         
     except Exception as ex:
         return jsonify({'message': str(ex)}), 500

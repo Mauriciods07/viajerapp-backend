@@ -27,7 +27,9 @@ def hash_password(password):
 def update_users_data():
     try:
         profile_id = request.form['profile_id']
-        email = request.form['email']
+        # email = request.form['email']
+        name = request.form['name']
+        description = request.form['description']
 
         if 'profile_photo' in request.files:
             file = request.files['profile_photo']
@@ -43,13 +45,13 @@ def update_users_data():
                 profile_photo = 'https://{}.s3.{}.amazonaws.com/{}'.format(config('AWS_BUCKET_NAME'),config('REGION_NAME'),new_name)
                 multimedia = Multimedia(profile_id,profile_id, 'PROFILE', profile_photo, profile_photo.rsplit('.',1)[1].lower())
                 MultimediaModel.create_multimedia(multimedia)
-                UsersModel.update_data_photo_user(profile_id,email,profile_photo)
+                UsersModel.update_data_photo_user(profile_id,profile_photo,name)
                 return jsonify({
                     'message': 'OK',
                     'profile_photo': profile_photo
                 })
         else:
-            UsersModel.update_user(profile_id,email)
+            UsersModel.update_user(profile_id,name)
             return jsonify({
                 'message': 'OK'
             })

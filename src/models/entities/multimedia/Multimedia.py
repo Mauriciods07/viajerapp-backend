@@ -1,5 +1,4 @@
 class Multimedia():
-
     def __init__(self,profile_id, share_id, share_type, archive_url, archive_type) -> None:
         self.profile_id = profile_id
         self.share_id = share_id

@@ -19,4 +19,19 @@ AWS_ACCESS_KEY=
 AWS_SECRET_ACCESS_KEY=
 REGION_NAME=
 SERVICE_NAME=
+
+# APIs
+AMADEUS_API_KEY=LKSCwaojPNrqZagzQ53BUDXIsbt4
+```
+
+La carpeta resources debe quedar con la siguiente estructura
+
+```
+src
+|- resources
+    |- files
+        |-intents_viajerapp.json
+        |-offers.json
+    |-models
+        |-viajerapp_chatbot_model.keras
 ```

@@ -1,18 +1,18 @@
 from src.database.db import get_connection
 from .entities.user.User import User
 
-UPDATE = """ UPDATE "T_PROFILE" SET "EMAIL"= %s WHERE  "ID" = %s; """
-UPDATE_PHOTO = """ UPDATE "T_PROFILE" SET "EMAIL"= %s, "PROFILE_PHOTO" = %s WHERE  "ID" = %s; """
+UPDATE = """ UPDATE "T_PROFILE" SET "NAME" = %s WHERE  "ID" = %s; """
+UPDATE_PHOTO = """ UPDATE "T_PROFILE" SET "PROFILE_PHOTO" = %s, "NAME" = %s WHERE  "ID" = %s; """
 GET_USER_DATA = """ SELECT "NAME", "EMAIL", "PROFILE_PHOTO" FROM "T_PROFILE" WHERE "ID" = %s """
 UPDATE_PASSWORD = """ UPDATE "T_PROFILE" SET "PASSWORD" = %s WHERE "ID" = %s """
 
 class UsersModel():
     @classmethod
-    def update_user(self, profile_id, email):
+    def update_user(self, profile_id, name):
         try:
             conn = get_connection()
             with conn.cursor() as cur:
-                cur.execute(UPDATE, (email,profile_id))
+                cur.execute(UPDATE, (name,profile_id))
                 affected_row = cur.rowcount
                 conn.commit()
             conn.close()
@@ -21,11 +21,11 @@ class UsersModel():
             raise Exception(ex)
     
     @classmethod
-    def update_data_photo_user(self, profile_id, email,profile_photo):
+    def update_data_photo_user(self, profile_id, profile_photo, name):
         try:
             conn = get_connection()
             with conn.cursor() as cur:
-                cur.execute(UPDATE_PHOTO, (email,profile_photo,profile_id))
+                cur.execute(UPDATE_PHOTO, (profile_photo,name,profile_id))
                 affected_row = cur.rowcount
                 conn.commit()
             conn.close()
