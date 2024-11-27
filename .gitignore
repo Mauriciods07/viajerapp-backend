@@ -2,6 +2,8 @@
 /.vscode/
 /scripts/
 
+viajerapp_instance_key.pem
+
 __pycache__/
 *.py[cod]
 
